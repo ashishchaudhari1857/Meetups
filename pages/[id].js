@@ -1,17 +1,18 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import { MongoClient,ObjectId } from 'mongodb';
 
 import MeetupDetail from '../components/meetups/MeetupDetail';
-const ComponentName = () => {
+const ComponentName = (props) => {
     const router=useRouter()
     const id= router.query.id;
   return (
     <div>
       <MeetupDetail 
-         title="firstmeet"
-         address="nagpur"
-         image="/meetplace.jpg"
-         description="tell me something"
+         title={props.meetup.title}
+         address={props.meetup.address}
+         image={props.meetup.image}
+         description={props.meetup.description}
 
       ></MeetupDetail>
     </div>
@@ -23,29 +24,47 @@ const ComponentName = () => {
 export default ComponentName;
 
  export  async function  getStaticPaths(){
-
+  const username = "ashishchaudhari1857";
+  const password = "pass@123";
+  const client = await MongoClient.connect(
+    `mongodb+srv://${username}:${encodeURIComponent(
+      password
+    )}@cluster0.nuhh21u.mongodb.net/meetups?retryWrites=true&w=majority`
+  );
+  const db = client.db();
+  const meetupscollections = db.collection("meetups");
+   const idarray = await meetupscollections.find({},{_id:1}).toArray();
+   client.close();
   return {
-    fallback:true,
-    paths:[
-      {params:{id:"m1"}},
-      {params:{id:"m2"}},
-      {params:{id:"m3"}}
-    ]
+    fallback:false,
+   paths:idarray.map((meet)=>({params:{id: meet._id.toString()} }))
   }
- }
+  }
+ 
 
  export   async function getStaticProps(context){
   const id=context.params.id;
 
+  const username = "ashishchaudhari1857";
+  const password = "pass@123";
+  const client = await MongoClient.connect(
+    `mongodb+srv://${username}:${encodeURIComponent(
+      password
+    )}@cluster0.nuhh21u.mongodb.net/meetups?retryWrites=true&w=majority`
+  );
+  const db = client.db();
+  const meetupscollections = db.collection("meetups");
+  const selecteddata = await meetupscollections.findOne({ _id: ObjectId(id)});
   //   fetch data  
+  client.close();
   return{
-      props:{
-        title:"firstmeet",
-        address:"nagpur",
-        image:"/meetplace.jpg",
-        description:"tell me something"
-
-      }
+      props:{meetup:{
+        title:selecteddata.title,
+        image:selecteddata.image,
+        address:selecteddata.address,
+        description:selecteddata.description,
+        id:selecteddata._id.toString()
+      }} 
   }
      
 
