@@ -19,7 +19,7 @@ async function handler(req, res) {
 
       // Check if the insertion was successful  this is  the inser massage  don go before insrting
       
-      if (result.insertedCount > 0) {
+      if (result.insertedCount=== 1) {
         console.log("Meetup inserted:", result.insertedId);
         client.close();
         res.status(201).json({ message: "Meetup inserted successfully" });
