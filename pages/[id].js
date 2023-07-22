@@ -10,8 +10,8 @@ const ComponentName = (props) => {
   return (
     <div>
 <Head>
-  <title>{props.meetup.title}</title>
-  <meta  name='description'  content={props.meetup.description}></meta>
+  <title>{props.meetup.title? props.meetup.title:"Nothing"}</title>
+  <meta  name='description'  content={props.meetup.description?props.meetup.description:"Nothing"}></meta>
 </Head>
       <MeetupDetail 
          title={props.meetup.title}
