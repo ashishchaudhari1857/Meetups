@@ -41,7 +41,7 @@ export default ComponentName;
    const idarray = await meetupscollections.find({},{_id:1}).toArray();
    client.close();
   return {
-    fallback:false,
+    fallback:true,
    paths:idarray.map((meet)=>({params:{id: meet._id.toString()} }))
   }
   }
