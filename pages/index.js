@@ -42,8 +42,9 @@ export async function getStaticProps() {
 
   const meetups = await meetupscollections.find().toArray();
   client.close();
-
+  console.log("called for revalidete")
   return {
+     
     props: {
       meetups: meetups.map((meetup) => ({
         title: meetup.title,
