@@ -10,8 +10,8 @@ const ComponentName = (props) => {
   return (
     <div>
 <Head>
-  <title>{props.meetup.title? props.meetup.title:"Nothing"}</title>
-  <meta  name='description'  content={props.meetup.description?props.meetup.description:"Nothing"}></meta>
+  <title>{props.meetup.title}</title>
+  <meta  name='description'  content={props.meetup.description}></meta>
 </Head>
       <MeetupDetail 
          title={props.meetup.title}
@@ -41,7 +41,7 @@ export default ComponentName;
    const idarray = await meetupscollections.find({},{_id:1}).toArray();
    client.close();
   return {
-    fallback:true,
+    fallback:false,
    paths:idarray.map((meet)=>({params:{id: meet._id.toString()} }))
   }
   }
