@@ -7,6 +7,12 @@ import MeetupDetail from '../components/meetups/MeetupDetail';
 const ComponentName = (props) => {
     const router=useRouter()
     const id= router.query.id;
+    
+    
+    if (!props.meetup) {
+      return <p>Loading...</p>; // Add a loading state when data is not available yet
+    }
+    
   return (
     <div>
 <Head>
