@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import { MongoClient,ObjectId } from 'mongodb';
 
 import MeetupDetail from '../components/meetups/MeetupDetail';
@@ -8,6 +9,10 @@ const ComponentName = (props) => {
     const id= router.query.id;
   return (
     <div>
+<Head>
+  <title>{props.meetup.title}</title>
+  <meta  name='description'  content={props.meetup.description}></meta>
+</Head>
       <MeetupDetail 
          title={props.meetup.title}
          address={props.meetup.address}
@@ -54,7 +59,7 @@ export default ComponentName;
   );
   const db = client.db();
   const meetupscollections = db.collection("meetups");
-  const selecteddata = await meetupscollections.findOne({ _id: ObjectId(id)});
+  const selecteddata = await meetupscollections.findOne({ _id: new ObjectId(id)});
   //   fetch data  
   client.close();
   return{

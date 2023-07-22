@@ -13,7 +13,7 @@ function MeetupDetail(props) {
           <h3>{props.title}</h3>
           <address>{props.address}</address>
         </div>
-        <div>
+        <div className={classes.description}>
             <p>{props.description}</p>
         </div>
       </Card>
