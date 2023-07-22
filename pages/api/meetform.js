@@ -7,7 +7,9 @@ async function handler(req, res) {
   if (req.method === "POST") {
     const data = req.body;
 
+
     try {
+
       const client = await MongoClient.connect(
         `mongodb+srv://${username}:${encodeURIComponent(password)}@cluster0.nuhh21u.mongodb.net/meetups?retryWrites=true&w=majority`
       );
@@ -15,11 +17,12 @@ async function handler(req, res) {
       const meetupscollections = db.collection("meetups");
 
       // Insert the new meetup data into the database
+
       const result = await meetupscollections.insertOne(data);
+      console.log("Inserted document ID:", result.insertedId);
 
       // Check if the insertion was successful  this is  the inser massage  don go before insrting
-      
-      if (result.insertedCount=== 1) {
+      if (result.insertedId) {
         console.log("Meetup inserted:", result.insertedId);
         client.close();
         res.status(201).json({ message: "Meetup inserted successfully" });
